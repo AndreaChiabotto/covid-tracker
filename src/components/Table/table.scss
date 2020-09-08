@@ -1,0 +1,21 @@
+.table{
+    margin-top: 16px;
+    overflow: scroll;
+    height: 400px;
+    width: 100%;
+    border: 1px solid red;
+
+    tr{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        &:nth-child(odd){
+            background: lightblue;
+        }
+    }
+
+    td{
+        padding: 8px 12px;
+    }
+}
