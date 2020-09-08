@@ -7,6 +7,8 @@ import {
   CardContent,
 } from "@material-ui/core";
 
+import {sortData } from "./utils/utils";
+
 import Infobox from "./components/InfoBox/infoBox";
 import Map from "./components/Map/Map";
 import Table from "./components/Table/Table";
@@ -32,7 +34,10 @@ function App() {
             name: fetchedCountry.country,
             value: fetchedCountry.countryInfo.iso2,
           }));
-          setTableData(data);
+
+          const sortedData = sortData(data);
+
+          setTableData(sortedData);
           setCountries(fetchedCountries);
         });
     };
