@@ -1,20 +1,22 @@
-.table{
+.table {
     margin-top: 16px;
-    overflow: scroll;
+    padding: 0;
+    overflow: hidden;
     height: 400px;
     width: 100%;
+    border: 1px solid blue;
 
-    tr{
+    tr {
         width: 100%;
         display: flex;
         justify-content: space-between;
 
-        &:nth-child(odd){
+        &:nth-child(odd) {
             background: lightblue;
         }
     }
 
-    td{
+    td {
         padding: 8px 12px;
     }
 }

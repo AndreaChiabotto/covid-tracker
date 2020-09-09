@@ -7,11 +7,12 @@ import {
   CardContent,
 } from "@material-ui/core";
 
-import {sortData } from "./utils/utils";
+import { sortData } from "./utils/utils";
 
 import Infobox from "./components/InfoBox/infoBox";
 import Map from "./components/Map/Map";
 import Table from "./components/Table/Table";
+import LineGraph from "./components/LineGraph/LineGraph";
 
 import "./App.scss";
 
@@ -108,12 +109,16 @@ function App() {
 
         <Card className="app__sidebar">
           <CardContent>
+            <h3>Worldwide new cases</h3>
+            <LineGraph />
+            
+            {/*  
             <h3>Live cases by Country</h3>
             <Table
               countries={tableData}
             />
-            <h3>Worldwide new cases</h3>
-            {/* Graph */}
+            */}
+
           </CardContent>
         </Card>
       </div>

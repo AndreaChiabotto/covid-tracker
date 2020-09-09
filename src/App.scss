@@ -17,16 +17,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    border: 1px solid rgba(red, .3);
   }
 
   &__hero {
-    width: calc(100% + 20px);
+    width: 100%;
     padding: 50px;
     margin-left: -20px;
-
-    border: 1px solid rgba(black, .3);
   }
 
   &__container {
@@ -40,16 +36,14 @@ body {
 
   &__mainbar {
     flex: 0 0 60%;
-    border: 1px solid rgba(orangered, .3);
 
-    h3{
+    h3 {
       flex: 0 0 100%;
     }
   }
 
   &__sidebar {
     flex: 0 0 40%;
-    border: 1px solid rgba(blue, .3);
   }
 
   &__stats {
