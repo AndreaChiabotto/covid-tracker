@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Button } from "@material-ui/core";
+import { Card, CardContent, Box, Button } from "@material-ui/core";
 
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
@@ -62,7 +62,7 @@ const buildChartData = (data, casesType = "cases") => {
         x: date,
         y: data[casesType][date] - lastDataPoint,
       };
-     // console.log(newDataPoint);
+      // console.log(newDataPoint);
       chartData.push(newDataPoint);
     }
 
@@ -139,51 +139,60 @@ function LineGraph() {
   }
 
   return (
-    <div>
+    <Box mb={3}>
+      {" "}
+      <Card>
+        <CardContent>
+          <Box mb={2}>
+            <h3>Worldwide {title} by day:</h3>
+          </Box>
+          {sortedData?.length > 0 && (
+            <Box mb={2}>
+              <Line
+                data={{
+                  datasets: [
+                    {
+                      backgroundColor: backgroundColor,
+                      borderColor: "transparent",
+                      data: sortedData,
+                    },
+                  ],
+                }}
+                options={options}
+              />
+            </Box>
+          )}
 
-  <h3>Worldwide {title} by day:</h3>
-
-      {sortedData?.length > 0 && (
-        <Line
-          data={{
-            datasets: [
-              {
-                backgroundColor: backgroundColor,
-                borderColor: "transparent",
-                data: sortedData,
-              },
-            ],
-          }}
-          options={options}
-        />
-      )}
-
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          changeDataOnClick("cases");
-        }}
-      >
-        Cases
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => {
-          changeDataOnClick("recovered");
-        }}
-      >
-        Recovered
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => {
-          changeDataOnClick("deaths");
-        }}
-      >
-        Deaths
-      </Button>
-    </div>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                changeDataOnClick("cases");
+              }}
+            >
+              Cases
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                changeDataOnClick("recovered");
+              }}
+            >
+              Recovered
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                changeDataOnClick("deaths");
+              }}
+            >
+              Deaths
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 
