@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+
+import { Button } from "@material-ui/core";
+
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 
@@ -59,7 +62,7 @@ const buildChartData = (data, casesType = "cases") => {
         x: date,
         y: data[casesType][date] - lastDataPoint,
       };
-      console.log(newDataPoint);
+     // console.log(newDataPoint);
       chartData.push(newDataPoint);
     }
 
@@ -69,8 +72,11 @@ const buildChartData = (data, casesType = "cases") => {
   return chartData;
 };
 
-function LineGraph({ casesType }) {
-  const [data, setData] = useState({});
+function LineGraph() {
+  const [savedData, setSavedData] = useState({});
+  const [sortedData, setSortedData] = useState({});
+  let [backgroundColor, setBackgroundColor] = useState("tomato");
+  let [title, setTitle] = useState("new cases");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,32 +84,105 @@ function LineGraph({ casesType }) {
         .then((response) => {
           return response.json();
         })
-        .then((data) => {
-          let chartData = buildChartData(data, casesType);
-          setData(chartData);
+        .then((dataJson) => {
+          setSavedData(dataJson);
+
+          let chartData = buildChartData(dataJson);
+          setSortedData(chartData);
         });
     };
 
     fetchData();
-  }, [casesType]);
+  }, []);
+
+  function changeColorOnType(type) {
+    var color;
+    switch (type) {
+      case "cases":
+        color = "tomato";
+        break;
+      case "recovered":
+        color = "olive";
+        break;
+      case "deaths":
+        color = "black";
+        break;
+      default:
+        color = "tomato";
+    }
+    return color;
+  }
+
+  function changeTitle(type) {
+    var title;
+    switch (type) {
+      case "cases":
+        title = "new cases";
+        break;
+      case "recovered":
+        title = "recovered";
+        break;
+      case "deaths":
+        title = "deaths";
+        break;
+      default:
+        title = "new cases";
+    }
+    return title;
+  }
+
+  function changeDataOnClick(type) {
+    let chartData = buildChartData(savedData, type);
+    setSortedData(chartData);
+    setBackgroundColor(changeColorOnType(type));
+    setTitle(changeTitle(type));
+  }
 
   return (
     <div>
-      {data?.length > 0 && (
+
+  <h3>Worldwide {title} by day:</h3>
+
+      {sortedData?.length > 0 && (
         <Line
           data={{
             datasets: [
               {
-                backgroundColor: "rgba(204, 16, 52, 0.5)",
-                height: "400",
+                backgroundColor: backgroundColor,
                 borderColor: "transparent",
-                data: data,
+                data: sortedData,
               },
             ],
           }}
           options={options}
         />
       )}
+
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          changeDataOnClick("cases");
+        }}
+      >
+        Cases
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => {
+          changeDataOnClick("recovered");
+        }}
+      >
+        Recovered
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => {
+          changeDataOnClick("deaths");
+        }}
+      >
+        Deaths
+      </Button>
     </div>
   );
 }

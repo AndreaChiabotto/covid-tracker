@@ -108,17 +108,18 @@ function App() {
         </div>
 
         <Card className="app__sidebar">
-          <CardContent>
-            <h3>Worldwide new cases</h3>
+          
+          <CardContent></CardContent>
             <LineGraph />
-            
+          </CardContent>
+
+          <CardContent>
             {/*  
             <h3>Live cases by Country</h3>
             <Table
               countries={tableData}
             />
             */}
-
           </CardContent>
         </Card>
       </div>
