@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Card,
-  CardContent,
-} from "@material-ui/core";
+import { Grid, FormControl, Select, MenuItem } from "@material-ui/core";
 
 import { sortData } from "./utils/utils";
 
 import Infobox from "./components/InfoBox/infoBox";
 import Map from "./components/Map/Map";
-import Table from "./components/Table/Table";
+import InfoTable from "./components/InfoTable/InfoTable";
 import LineGraph from "./components/LineGraph/LineGraph";
 
 import "./App.scss";
@@ -68,61 +62,60 @@ function App() {
 
   return (
     <div className="app">
-      <div className="app__header">
-        <h1>Covid-19 World Tracker</h1>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h1>Covid-19 World Tracker</h1>
 
-        <FormControl className="app__dropdown">
-          <Select variant="outlined" onChange={onCOuntryChange} value={country}>
-            <MenuItem value="worldwide">Worldwide</MenuItem>
-            {countries.map((country, i) => (
-              <MenuItem key={"country nr " + i} value={country.value}>
-                {country.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>{" "}
-      <div className="app__hero">
-        <Map />
-      </div>
-      <div className="app__container">
-        <div className="app__mainbar">
-          <div className="app__stats">
-            {/* <h3>{country}</h3>  */}
-            <Infobox
-              title="Cases"
-              cases={countryInfo.todayCases}
-              total={countryInfo.cases}
-            />
-            <Infobox
-              title="Recovered"
-              cases={countryInfo.todayRecovered}
-              total={countryInfo.recovered}
-            />
-            <Infobox
-              title="Deaths"
-              cases={countryInfo.todayDeaths}
-              total={countryInfo.deaths}
-            />
-          </div>
-        </div>
+          <FormControl>
+            <Select
+              variant="outlined"
+              onChange={onCOuntryChange}
+              value={country}
+            >
+              <MenuItem value="worldwide">Worldwide</MenuItem>
+              {countries.map((country, i) => (
+                <MenuItem key={"country nr " + i} value={country.value}>
+                  {country.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
 
-        <Card className="app__sidebar">
-          
-          <CardContent></CardContent>
-            <LineGraph />
-          </CardContent>
+        <Grid item xs={12}>
+          <Map />
+        </Grid>
+        <Grid container item xs={7} spacing={2}>
+            <Grid item xs={4} >
+              {/* <h3>{country.name}</h3>   */}
+              <Infobox
+                title="Cases"
+                cases={countryInfo.todayCases}
+                total={countryInfo.cases}
+              />
+            </Grid>
+            <Grid item xs={4} >
+              <Infobox
+                title="Recovered"
+                cases={countryInfo.todayRecovered}
+                total={countryInfo.recovered}
+              />
+            </Grid>
+            <Grid item xs={4} >
+              <Infobox
+                title="Deaths"
+                cases={countryInfo.todayDeaths}
+                total={countryInfo.deaths}
+              />
+            </Grid>
+        </Grid>
 
-          <CardContent>
-            {/*  
-            <h3>Live cases by Country</h3>
-            <Table
-              countries={tableData}
-            />
-            */}
-          </CardContent>
-        </Card>
-      </div>
+        <Grid item xs={5}>
+          <LineGraph />
+
+          <InfoTable countries={tableData} />
+        </Grid>
+      </Grid>
     </div>
   );
 }
