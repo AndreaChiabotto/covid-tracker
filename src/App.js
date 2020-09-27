@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid, FormControl, Select, MenuItem } from "@material-ui/core";
 
-import { sortData, prettyPrintStat } from "./utils/utils";
+import { sortData , prettyPrintStat} from "./utils/utils";
 
 import Infobox from "./components/InfoBox/infoBox";
 import Map from "./components/Map/Map";
@@ -17,16 +17,16 @@ function App() {
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
-  const worldWideLatLng = { lat: 34.80746, lng: -40.4796 };
+  const worldWideLatLng = {lat: 34.80746, lng: -40.4796};
   const worldWideZoom = 2;
   const [mapCenter, setMapCenter] = useState(worldWideLatLng);
   const [mapZoom, setMapZoom] = useState(worldWideZoom);
   const [mapCountries, setMapCountries] = useState([]);
   const [casesType, setCasesType] = useState("cases");
-
+  
   useEffect(() => {
     loadCountriesData(country);
-  });
+  }, []);
 
   useEffect(() => {
     const getCountriesByData = async () => {
@@ -49,8 +49,9 @@ function App() {
     getCountriesByData();
   }, []);
 
-  const onCountryChange = async (event) => {
+  const onCOuntryChange = async (event) => {
     const selectedCountry = event.target.value;
+
     setCountry(selectedCountry);
     loadCountriesData(selectedCountry);
   };
@@ -68,7 +69,8 @@ function App() {
         if (data.countryInfo) {
           setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
           setMapZoom(6);
-        } else {
+        }
+        else{
           setMapCenter(worldWideLatLng);
           setMapZoom(worldWideZoom);
         }
@@ -84,7 +86,7 @@ function App() {
           <FormControl>
             <Select
               variant="outlined"
-              onChange={onCountryChange}
+              onChange={onCOuntryChange}
               value={country}
             >
               <MenuItem value="worldwide">Worldwide</MenuItem>
@@ -97,31 +99,35 @@ function App() {
           </FormControl>
         </Grid>
 
+       
         <Grid container item xs={6} spacing={2}>
+
           <Grid item xs={4}>
+            {/* <h3>{country.name}</h3>   */}
             <Infobox
-              active={casesType === "cases"}
-              onClick={(e) => setCasesType("cases")}
+            active={casesType === 'cases'}
+            onClick={ (e) => setCasesType('cases')}
               title="Cases"
               cases={prettyPrintStat(countryInfo.todayCases)}
               total={prettyPrintStat(countryInfo.cases)}
             />
           </Grid>
-
+         
           <Grid item xs={4}>
+
             <Infobox
-              active={casesType === "recovered"}
-              onClick={(e) => setCasesType("recovered")}
+             active={casesType === 'recovered'}
+            onClick={ (e) => setCasesType('recovered')}
               title="Recovered"
               cases={prettyPrintStat(countryInfo.todayRecovered)}
               total={prettyPrintStat(countryInfo.recovered)}
             />
           </Grid>
-
+         
           <Grid item xs={4}>
             <Infobox
-              active={casesType === "deaths"}
-              onClick={(e) => setCasesType("deaths")}
+             active={casesType === 'deaths'}
+            onClick={ (e) => setCasesType('deaths')}
               title="Deaths"
               cases={prettyPrintStat(countryInfo.todayDeaths)}
               total={prettyPrintStat(countryInfo.deaths)}
@@ -129,17 +135,15 @@ function App() {
           </Grid>
 
           <Grid item xs={12}>
-            {/*  
-         <Map casesType={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} /> 
-         */}
-          </Grid>
+          <Map casesType={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+        </Grid>
+
         </Grid>
 
         <Grid item xs={6}>
-          {/*          
-           <LineGraph casesType={casesType}/>
+          <LineGraph casesType={casesType}/>
+
           <InfoTable countries={tableData} />
-          */}
         </Grid>
       </Grid>
     </div>
