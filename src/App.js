@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid, FormControl, Select, MenuItem } from "@material-ui/core";
 
-import { sortData } from "./utils/utils";
+import { sortData , prettyPrintStat} from "./utils/utils";
 
 import Infobox from "./components/InfoBox/infoBox";
 import Map from "./components/Map/Map";
@@ -22,10 +22,11 @@ function App() {
   const [mapCenter, setMapCenter] = useState(worldWideLatLng);
   const [mapZoom, setMapZoom] = useState(worldWideZoom);
   const [mapCountries, setMapCountries] = useState([]);
-
+  const [casesType, setCasesType] = useState("cases");
+  
   useEffect(() => {
     loadCountriesData(country);
-  }, [country]);
+  }, []);
 
   useEffect(() => {
     const getCountriesByData = async () => {
@@ -67,7 +68,7 @@ function App() {
         setCountryInfo(data);
         if (data.countryInfo) {
           setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-          setMapZoom(4);
+          setMapZoom(6);
         }
         else{
           setMapCenter(worldWideLatLng);
@@ -98,37 +99,49 @@ function App() {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12}>
-          <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
-        </Grid>
+       
+        <Grid container item xs={6} spacing={2}>
 
-        <Grid container item xs={7} spacing={2}>
           <Grid item xs={4}>
             {/* <h3>{country.name}</h3>   */}
             <Infobox
+            active={casesType === 'cases'}
+            onClick={ (e) => setCasesType('cases')}
               title="Cases"
-              cases={countryInfo.todayCases}
-              total={countryInfo.cases}
+              cases={prettyPrintStat(countryInfo.todayCases)}
+              total={prettyPrintStat(countryInfo.cases)}
             />
           </Grid>
+         
           <Grid item xs={4}>
+
             <Infobox
+             active={casesType === 'recovered'}
+            onClick={ (e) => setCasesType('recovered')}
               title="Recovered"
-              cases={countryInfo.todayRecovered}
-              total={countryInfo.recovered}
+              cases={prettyPrintStat(countryInfo.todayRecovered)}
+              total={prettyPrintStat(countryInfo.recovered)}
             />
           </Grid>
+         
           <Grid item xs={4}>
             <Infobox
+             active={casesType === 'deaths'}
+            onClick={ (e) => setCasesType('deaths')}
               title="Deaths"
-              cases={countryInfo.todayDeaths}
-              total={countryInfo.deaths}
+              cases={prettyPrintStat(countryInfo.todayDeaths)}
+              total={prettyPrintStat(countryInfo.deaths)}
             />
           </Grid>
+
+          <Grid item xs={12}>
+          <Map casesType={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
         </Grid>
 
-        <Grid item xs={5}>
-          <LineGraph />
+        </Grid>
+
+        <Grid item xs={6}>
+          <LineGraph casesType={casesType}/>
 
           <InfoTable countries={tableData} />
         </Grid>
