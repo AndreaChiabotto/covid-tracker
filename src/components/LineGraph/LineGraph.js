@@ -140,7 +140,7 @@ function LineGraph() {
 
   return (
     <Box mb={2}>
-      {" "}
+    
       <Card>
         <CardContent>
           <Box mb={2}>
