@@ -18,27 +18,7 @@ p {
   color: #7a7d80;
 }
 
-.Header {
-  display: flex;
-  justify-content: space-between;
 
-  .MuiFormControl-root {
-    background: #35393e !important;
-    border-radius: 6px !important;
-    box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
-    cursor: pointer !important;
-  }
-
-  .MuiOutlinedInput-notchedOutline {
-    border-color: rgba(0, 0, 0, 0);
-  }
-
-  .MuiSelect-root,
-  .MuiSelect-icon {
-    color: #fff;
-    font-weight: 700;
-  }
-}
 
 .MuiContainer-root{
   padding: 16px 8px 0 !important;
@@ -52,6 +32,7 @@ p {
   }
 
   &-elevation1 {
+    transition: all .2s;
     box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
   }
 }

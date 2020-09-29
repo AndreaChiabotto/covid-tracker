@@ -1,6 +1,6 @@
 .InfoBox {
     cursor: pointer;
-    
+
     h3 {
         color: #7a7d80;
         margin-bottom: 12px;
@@ -8,5 +8,16 @@
 
     h2 {
         margin-bottom: 8px;
+    }
+
+    .MuiPaper-elevation1 {
+        transition: all .5s;
+        box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
+    }
+
+
+    &--selected.MuiPaper-elevation1 {
+        transition: all .2s;
+        box-shadow: inset 8px 8px 16px #2d3035, inset -8px -8px 16px #3d4247 !important;
     }
 }

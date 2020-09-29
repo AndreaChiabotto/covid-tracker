@@ -4,7 +4,7 @@ import { Grid, Container } from "@material-ui/core";
 import { sortData, prettyPrintStat } from "./utils/utils";
 
 import Header from "./components/Header/Header";
-import Infobox from "./components/InfoBox/InfoBox";
+import Infobox from "./components/InfoBox/infoBox";
 import Map from "./components/Map/Map";
 import InfoTable from "./components/InfoTable/InfoTable";
 import LineGraph from "./components/LineGraph/LineGraph";
