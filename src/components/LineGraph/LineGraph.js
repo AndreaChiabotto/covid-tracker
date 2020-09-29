@@ -75,8 +75,7 @@ function LineGraph({ countryName, countryCode, casesType }) {
   );
 
   useEffect(() => {
-    console.log('useeffect casestype')
-   
+    //console.log('useeffect casestype')
       if (countryCode === "worldwide") {
         setUrl("https://disease.sh/v3/covid-19/historical/all?lastdays=all");
       } else {
@@ -104,6 +103,9 @@ function LineGraph({ countryName, countryCode, casesType }) {
           chartData= buildChartData(data.timeline, casesType);
         }
         setData(chartData);
+      })
+      .catch(function(error) {
+        console.log(error);
       });
   };
 
@@ -118,7 +120,6 @@ function LineGraph({ countryName, countryCode, casesType }) {
             data={{
               datasets: [
                 {
-                  lineTension: 0,
                   borderColor: "#CC1034",
                   data: data,
                 },
