@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Container,
-  FormControl,
-  Select,
-  MenuItem,
-} from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 
 import { sortData, prettyPrintStat } from "./utils/utils";
 
+import Header from "./components/Header/Header";
 import Infobox from "./components/InfoBox/InfoBox";
 import Map from "./components/Map/Map";
 import InfoTable from "./components/InfoTable/InfoTable";
@@ -29,12 +24,11 @@ function App() {
   const [casesType, setCasesType] = useState("cases");
 
   useEffect(() => {
-  //  console.log('app is starting...');
+    //  console.log('app is starting...');
     loadCountriesData(country);
   }, [country]);
 
   useEffect(() => {
-
     const getCountriesByData = async () => {
       await fetch("https://disease.sh/v3/covid-19/countries")
         .then((response) => response.json())
@@ -44,20 +38,23 @@ function App() {
             value: fetchedCountry.countryInfo.iso2,
           }));
 
-         // console.log(data);
+          // console.log(data);
 
           const sortedData = sortData(data);
 
           setTableData(sortedData);
           setMapCountries(data);
           setCountries(fetchedCountries);
+        })
+        .catch(function (error) {
+          console.log(error);
         });
     };
 
     getCountriesByData();
   }, []);
 
-  const onCOuntryChange = async (event) => {
+  const onCountryChange = async (event) => {
     const selectedCountry = event.target.value;
     setCountry(selectedCountry);
     loadCountriesData(selectedCountry);
@@ -80,6 +77,9 @@ function App() {
           setMapCenter(worldWideLatLng);
           setMapZoom(worldWideZoom);
         }
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   };
 
@@ -87,23 +87,12 @@ function App() {
     <div className="app">
       <Container maxWidth="lg">
         <Grid container spacing={3}>
-          <Grid item xs={12} className="Header">
-            <h1>Covid-19 World Tracker</h1>
-
-            <FormControl>
-              <Select
-                variant="outlined"
-                onChange={onCOuntryChange}
-                value={country}
-              >
-                <MenuItem value="worldwide">Worldwide</MenuItem>
-                {countries.map((country, i) => (
-                  <MenuItem key={"country nr " + i} value={country.value}>
-                    {country.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          <Grid item xs={12}>
+            <Header
+              country={country}
+              onCountryChange={(e) => onCountryChange(e)}
+              countries={countries}
+            />
           </Grid>
 
           <Grid item xs={6} sm={4}>
@@ -146,9 +135,11 @@ function App() {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <LineGraph 
-            countryName={countryInfo.country}
-            countryCode={country} casesType={casesType} />
+            <LineGraph
+              countryName={countryInfo.country}
+              countryCode={country}
+              casesType={casesType}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6}>
