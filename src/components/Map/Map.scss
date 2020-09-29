@@ -1,0 +1,38 @@
+.Map {
+    height: 500px;
+    background-color: white;
+    border-radius: 6px !important;
+    overflow: hidden;
+
+    .leaflet-container {
+        height: 100%;
+    }
+}
+
+.country-popup{
+        width: 150px;
+
+  &__flag {
+    height: 80px;
+    width: 100%;
+    background: olive;
+
+    img {
+        width: 100%;
+        height: auto;
+      }
+  }
+
+  &__name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  &__confirmed,
+  &__recovered,
+  &__deaths {
+    font-size: 16px;
+    margin-top: 5px;
+  }
+}

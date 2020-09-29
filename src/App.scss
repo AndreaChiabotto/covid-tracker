@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #35393e;
+  padding: 16px 20px;
+  color: #7a7d80;
+}
+
+h1,
+h2 {
+  color: #fff;
+}
+
+p {
+  color: #7a7d80;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+
+  .MuiFormControl-root {
+    background: #35393e !important;
+    border-radius: 6px !important;
+    box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
+    cursor: pointer !important;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0);
+  }
+
+  .MuiSelect-root,
+  .MuiSelect-icon {
+    color: #fff;
+    font-weight: 700;
+  }
+}
+
+.MuiContainer-root{
+  padding: 16px 8px 0 !important;
+}
+
+.MuiPaper,
+.MuiFormControl {
+  &-root {
+    background: #35393e !important;
+    border-radius: 6px !important;
+  }
+
+  &-elevation1 {
+    box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
+  }
+}
