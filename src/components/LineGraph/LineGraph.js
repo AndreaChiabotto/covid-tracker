@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-
-import { Card, CardContent, Box, Button } from "@material-ui/core";
+import "./LineGraph.scss";
+import { Card, CardContent } from "@material-ui/core";
 
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
@@ -12,6 +12,9 @@ const options = {
   elements: {
     point: {
       radius: 0,
+    },
+    line: {
+      borderJoinStyle: "round",
     },
   },
   maintainAspectRatio: true,
@@ -30,7 +33,7 @@ const options = {
       {
         type: "time",
         time: {
-          parser: "MM/DD/YY",
+          unit: "month",
           tooltipFormat: "ll",
         },
       },
@@ -41,12 +44,6 @@ const options = {
           display: false,
         },
         stacked: true,
-        //ticks: {
-        // Include a dollar sign in the ticks
-        //  callback: function (value, index, values) {
-        //    return numeral(value).format("0a");
-        //  },
-        //},
       },
     ],
   },
@@ -62,7 +59,6 @@ const buildChartData = (data, casesType = "cases") => {
         x: date,
         y: data[casesType][date] - lastDataPoint,
       };
-      // console.log(newDataPoint);
       chartData.push(newDataPoint);
     }
 
@@ -72,127 +68,67 @@ const buildChartData = (data, casesType = "cases") => {
   return chartData;
 };
 
-function LineGraph() {
-  const [savedData, setSavedData] = useState({});
-  const [sortedData, setSortedData] = useState({});
-  let [backgroundColor, setBackgroundColor] = useState("tomato");
-  let [title, setTitle] = useState("new cases");
+function LineGraph({ countryName, countryCode, casesType }) {
+  const [data, setData] = useState({});
+  const [url, setUrl] = useState(
+    "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=all")
-        .then((response) => {
-          return response.json();
-        })
-        .then((dataJson) => {
-          setSavedData(dataJson);
-
-          let chartData = buildChartData(dataJson);
-          setSortedData(chartData);
-        });
-    };
+    console.log('useeffect casestype')
+   
+      if (countryCode === "worldwide") {
+        setUrl("https://disease.sh/v3/covid-19/historical/all?lastdays=all");
+      } else {
+        setUrl(
+          `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=all`
+        );
+      }
 
     fetchData();
-  }, []);
+  }, [casesType,countryCode]);
 
-  function changeColorOnType(type) {
-    var color;
-    switch (type) {
-      case "cases":
-        color = "tomato";
-        break;
-      case "recovered":
-        color = "olive";
-        break;
-      case "deaths":
-        color = "black";
-        break;
-      default:
-        color = "tomato";
-    }
-    return color;
-  }
-
-  function changeTitle(type) {
-    var title;
-    switch (type) {
-      case "cases":
-        title = "new cases";
-        break;
-      case "recovered":
-        title = "recovered";
-        break;
-      case "deaths":
-        title = "deaths";
-        break;
-      default:
-        title = "new cases";
-    }
-    return title;
-  }
-
-  function changeDataOnClick(type) {
-    let chartData = buildChartData(savedData, type);
-    setSortedData(chartData);
-    setBackgroundColor(changeColorOnType(type));
-    setTitle(changeTitle(type));
-  }
+  const fetchData = async () => {
+    await fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        
+        let chartData;
+        
+        if(data.timeline === undefined) {
+          chartData= buildChartData(data, casesType);
+        }
+        else{
+          chartData= buildChartData(data.timeline, casesType);
+        }
+        setData(chartData);
+      });
+  };
 
   return (
-    <Box mb={2}>
-    
-      <Card>
-        <CardContent>
-          <Box mb={2}>
-            <h3>Worldwide {title} by day:</h3>
-          </Box>
-          {sortedData?.length > 0 && (
-            <Box mb={2}>
-              <Line
-                data={{
-                  datasets: [
-                    {
-                      backgroundColor: backgroundColor,
-                      borderColor: "transparent",
-                      data: sortedData,
-                    },
-                  ],
-                }}
-                options={options}
-              />
-            </Box>
-          )}
-
-          <Box>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                changeDataOnClick("cases");
-              }}
-            >
-              Cases
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                changeDataOnClick("recovered");
-              }}
-            >
-              Recovered
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                changeDataOnClick("deaths");
-              }}
-            >
-              Deaths
-            </Button>
-          </Box>
-        </CardContent>
-      </Card>
-    </Box>
+    <Card className="LineGraph">
+      <CardContent>
+        <h3>
+          <span>{countryName}</span> {casesType} by day
+        </h3>
+        {data?.length > 0 && (
+          <Line
+            data={{
+              datasets: [
+                {
+                  lineTension: 0,
+                  borderColor: "#CC1034",
+                  data: data,
+                },
+              ],
+            }}
+            options={options}
+          />
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
