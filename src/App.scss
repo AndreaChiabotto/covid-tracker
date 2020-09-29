@@ -4,53 +4,54 @@
 }
 
 body {
-  background-color: #f5f6fa;
+  background-color: #35393e;
   padding: 16px 20px;
+  color: #7a7d80;
 }
 
-/*
-.app {
+h1,
+h2 {
+  color: #fff;
+}
+
+p {
+  color: #7a7d80;
+}
+
+.Header {
   display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
+  justify-content: space-between;
 
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .MuiFormControl-root {
+    background: #35393e !important;
+    border-radius: 6px !important;
+    box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
+    cursor: pointer !important;
   }
 
-  &__hero {
-    width: 100%;
-    padding: 50px;
-    margin-left: -20px;
+  .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0);
   }
 
-  &__container {
-    display: flex;
-    justify-content: space-evenly;
-
-    @media (max-width:990px) {
-      flex-direction: column;
-    }
-  }
-
-  &__mainbar {
-    flex: 0 0 60%;
-
-    h3 {
-      flex: 0 0 100%;
-    }
-  }
-
-  &__sidebar {
-    flex: 0 0 40%;
-  }
-
-  &__stats {
-    padding: 16px 0;
-    display: flex;
-    flex-basis: 33.33%;
+  .MuiSelect-root,
+  .MuiSelect-icon {
+    color: #fff;
+    font-weight: 700;
   }
 }
-*/
+
+.MuiContainer-root{
+  padding: 16px 8px 0 !important;
+}
+
+.MuiPaper,
+.MuiFormControl {
+  &-root {
+    background: #35393e !important;
+    border-radius: 6px !important;
+  }
+
+  &-elevation1 {
+    box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
+  }
+}

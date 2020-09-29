@@ -1,6 +1,8 @@
 .Map {
     height: 500px;
     background-color: white;
+    border-radius: 6px !important;
+    overflow: hidden;
 
     .leaflet-container {
         height: 100%;
