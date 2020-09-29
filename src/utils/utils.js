@@ -24,7 +24,9 @@ export const sortData = (data) => {
 };
 
 export const prettyPrintStat = (stat) => {
-  return stat ? `${numeral(stat).format("0.a")}` : "0"
+  if( stat !== undefined){
+  return stat ? `${numeral(stat).format("0,0")}` : "0"
+}
 };
 
 export const showDataOnMap = (data, casesType = "cases") =>
