@@ -4,10 +4,11 @@ import { Grid, Container } from "@material-ui/core";
 import { sortData, prettyPrintStat } from "./utils/utils";
 
 import Header from "./components/Header/Header";
-import Infobox from "./components/InfoBox/infoBox";
+import CountryInfoBox from "./components/CountryInfoBox/CountryInfoBox";
 import Map from "./components/Map/Map";
 import InfoTable from "./components/InfoTable/InfoTable";
 import LineGraph from "./components/LineGraph/LineGraph";
+import Infobox from "./components/CountryInfoBox/InfoBox/InfoBox";
 
 import "./App.scss";
 
@@ -54,22 +55,24 @@ function App() {
     getCountriesByData();
   }, []);
 
-  const onCountryChange = async (event) => {
+  const onCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setCountry(selectedCountry);
-    loadCountriesData(selectedCountry);
   };
 
   const loadCountriesData = async (selectedCountry) => {
+    console.log("loadCountriesData...");
+
     const url =
       selectedCountry === "worldwide"
         ? "https://disease.sh/v3/covid-19/all"
-        : `https://disease.sh/v3/covid-19/countries/${selectedCountry}`;
+        : `https://disease.sh/v3/covid-19/countries/${selectedCountry}?yesterday=true`;
 
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        setCountryInfo(data);
+        console.log(data);
+
         if (data.countryInfo) {
           setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
           setMapZoom(6);
@@ -77,10 +80,16 @@ function App() {
           setMapCenter(worldWideLatLng);
           setMapZoom(worldWideZoom);
         }
+
+        setCountryInfo(data);
       })
       .catch(function (error) {
         console.log(error);
       });
+  };
+
+  const setCasesTypeOnClick = (type) => {
+    setCasesType(type);
   };
 
   return (
@@ -92,40 +101,11 @@ function App() {
               country={country}
               onCountryChange={(e) => onCountryChange(e)}
               countries={countries}
+              infoBoxClick={setCasesTypeOnClick}
             />
           </Grid>
 
-          <Grid item xs={6} sm={4}>
-            <Infobox
-              active={casesType === "cases"}
-              onClick={(e) => setCasesType("cases")}
-              title="Cases"
-              cases={prettyPrintStat(countryInfo.todayCases)}
-              total={prettyPrintStat(countryInfo.cases)}
-            />
-          </Grid>
-
-          <Grid item xs={6} sm={4}>
-            <Infobox
-              active={casesType === "recovered"}
-              onClick={(e) => setCasesType("recovered")}
-              title="Recovered"
-              cases={prettyPrintStat(countryInfo.todayRecovered)}
-              total={prettyPrintStat(countryInfo.recovered)}
-            />
-          </Grid>
-
-          <Grid item xs={6} sm={4}>
-            <Infobox
-              active={casesType === "deaths"}
-              onClick={(e) => setCasesType("deaths")}
-              title="Deaths"
-              cases={prettyPrintStat(countryInfo.todayDeaths)}
-              total={prettyPrintStat(countryInfo.deaths)}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={5}>
             <Map
               casesType={casesType}
               countries={mapCountries}
@@ -134,15 +114,58 @@ function App() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <LineGraph
-              countryName={countryInfo.country}
-              countryCode={country}
-              casesType={casesType}
+          <Grid item xs={12} sm={7}>
+            <CountryInfoBox
+              data={countryInfo}
+              setCasesType={setCasesTypeOnClick}
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={12}>
+                <Infobox
+                  active={casesType === "cases"}
+                  onClick={() => setCasesTypeOnClick("cases")}
+                  title="Cases"
+                  cases={prettyPrintStat(countryInfo.todayCases)}
+                  total={prettyPrintStat(countryInfo.cases)}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12}>
+                <Infobox
+                  active={casesType === "recovered"}
+                  onClick={() => setCasesTypeOnClick("recovered")}
+                  title="Recovered"
+                  cases={prettyPrintStat(countryInfo.todayRecovered)}
+                  total={prettyPrintStat(countryInfo.recovered)}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12}>
+                <Infobox
+                  active={casesType === "deaths"}
+                  onClick={() => setCasesTypeOnClick("deaths")}
+                  title="Deaths"
+                  cases={prettyPrintStat(countryInfo.todayDeaths)}
+                  total={prettyPrintStat(countryInfo.deaths)}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={8} >
+           
+              <LineGraph
+                countryName={countryInfo.country}
+                countryCode={country}
+                casesType={casesType}
+              />
+            
+          </Grid>
+
+          <Grid item xs={12}>
             <InfoTable countries={tableData} />
           </Grid>
         </Grid>
