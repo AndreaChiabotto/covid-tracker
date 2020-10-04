@@ -43,6 +43,9 @@ const options = {
           display: false,
         },
         stacked: true,
+        ticks: {
+          beginAtZero: true,
+      }
       },
     ],
   },
