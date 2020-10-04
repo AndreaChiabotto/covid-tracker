@@ -28,19 +28,16 @@ numeral.register('locale', 'de', {
       million: 'm',
       billion: 'b',
       trillion: 't'
-  },
-  defaults: {
-      format: '0.00',
-      currencyFormat: '0[.]00a'
   }
 });
 
 // switch between languages
-numeral.locale('de');
+// numeral.locale('de');
 
-export const sortData = (data) => {
+export const sortData = (data,type="cases",max=10) => {
   const sortedData = [...data];
-  return sortedData.sort((a, b) => (a.cases > b.cases ? -1 : 1));
+  sortedData.sort((a, b) => (a[type] > b[type] ? -1 : 1));
+  return sortedData.slice(0, max)
 };
 
 export const prettyPrintStat = (stat) => {

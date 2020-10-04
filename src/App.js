@@ -6,9 +6,9 @@ import { sortData, prettyPrintStat } from "./utils/utils";
 import Header from "./components/Header/Header";
 import CountryInfoBox from "./components/CountryInfoBox/CountryInfoBox";
 import Map from "./components/Map/Map";
-import InfoTable from "./components/InfoTable/InfoTable";
-import LineGraph from "./components/LineGraph/LineGraph";
-import Infobox from "./components/CountryInfoBox/InfoBox/InfoBox";
+// import LineGraph from "./components/LineGraph/LineGraph";
+import Infobox from "./components/InfoBox/InfoBox";
+import TopCountries from "./components/TopCountries/TopCountries";
 
 import "./App.scss";
 
@@ -16,21 +16,23 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
-  const [tableData, setTableData] = useState([]);
+
   const worldWideLatLng = { lat: 34.80746, lng: -40.4796 };
   const worldWideZoom = 2;
   const [mapCenter, setMapCenter] = useState(worldWideLatLng);
   const [mapZoom, setMapZoom] = useState(worldWideZoom);
   const [mapCountries, setMapCountries] = useState([]);
+
   const [casesType, setCasesType] = useState("cases");
 
   useEffect(() => {
-    //  console.log('app is starting...');
     loadCountriesData(country);
   }, [country]);
 
   useEffect(() => {
     const getCountriesByData = async () => {
+      console.log("getCountriesByData...");
+
       await fetch("https://disease.sh/v3/covid-19/countries")
         .then((response) => response.json())
         .then((data) => {
@@ -39,11 +41,6 @@ function App() {
             value: fetchedCountry.countryInfo.iso2,
           }));
 
-          // console.log(data);
-
-          const sortedData = sortData(data);
-
-          setTableData(sortedData);
           setMapCountries(data);
           setCountries(fetchedCountries);
         })
@@ -66,7 +63,7 @@ function App() {
     const url =
       selectedCountry === "worldwide"
         ? "https://disease.sh/v3/covid-19/all"
-        : `https://disease.sh/v3/covid-19/countries/${selectedCountry}?yesterday=true`;
+        : `https://disease.sh/v3/covid-19/countries/${selectedCountry}`;
 
     await fetch(url)
       .then((response) => response.json())
@@ -90,6 +87,10 @@ function App() {
 
   const setCasesTypeOnClick = (type) => {
     setCasesType(type);
+  };
+
+  const selectCountryOnClickHandler = (selectedCountry) => {
+    setCountry(selectedCountry);
   };
 
   return (
@@ -155,18 +156,44 @@ function App() {
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={8} >
-           
+          <Grid item xs={12} sm={6} md={8}>
+            {/* 
               <LineGraph
                 countryName={countryInfo.country}
                 countryCode={country}
                 casesType={casesType}
               />
-            
+            */}
           </Grid>
 
           <Grid item xs={12}>
-            <InfoTable countries={tableData} />
+            <TopCountries
+              title="Country with most today cases:"
+              sortedData={sortData(mapCountries)}
+              sortingType="cases"
+              loadCountryOnClick={selectCountryOnClickHandler}
+            />
+
+            <TopCountries
+              title="Country with most deaths:"
+              sortedData={sortData(mapCountries, "todayDeaths")}
+              sortingType="todayDeaths"
+              loadCountryOnClick={selectCountryOnClickHandler}
+            />
+
+            <TopCountries
+              title="Country with most cases per million:"
+              sortedData={sortData(mapCountries, "casesPerOneMillion")}
+              sortingType="todayDeaths"
+              loadCountryOnClick={selectCountryOnClickHandler}
+            />
+
+            <TopCountries
+              title="Country with most cases per million:"
+              sortedData={sortData(mapCountries, "activePerOneMillion")}
+              sortingType="activePerOneMillion"
+              loadCountryOnClick={selectCountryOnClickHandler}
+            />
           </Grid>
         </Grid>
       </Container>

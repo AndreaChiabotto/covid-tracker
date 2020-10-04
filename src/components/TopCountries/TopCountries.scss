@@ -1,0 +1,21 @@
+.TopCountries {
+    h3 {
+        margin-top: 24px;
+        color: #7a7d80;
+    }
+
+    &__Button {
+        float: left;
+        width: auto;
+        cursor: pointer;
+        margin: 24px 24px 0 0;
+
+        h2 {
+            margin-bottom: 12px;
+        }
+
+        .MuiCardContent-root {
+            padding-bottom: 16px !important;
+        }
+    }
+}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./LineGraph.scss";
-import { Card, CardContent } from "@material-ui/core";
 
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
@@ -76,16 +75,16 @@ function LineGraph({ countryName, countryCode, casesType }) {
 
   useEffect(() => {
     //console.log('useeffect casestype')
-      if (countryCode === "worldwide") {
-        setUrl("https://disease.sh/v3/covid-19/historical/all?lastdays=all");
-      } else {
-        setUrl(
-          `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=all`
-        );
-      }
+    if (countryCode === "worldwide") {
+      setUrl("https://disease.sh/v3/covid-19/historical/all?lastdays=all");
+    } else {
+      setUrl(
+        `https://disease.sh/v3/covid-19/historical/${countryCode}?lastdays=all`
+      );
+    }
 
     fetchData();
-  }, [casesType,countryCode]);
+  }, [casesType, countryCode]);
 
   const fetchData = async () => {
     await fetch(url)
@@ -93,43 +92,39 @@ function LineGraph({ countryName, countryCode, casesType }) {
         return response.json();
       })
       .then((data) => {
-        
         let chartData;
-        
-        if(data.timeline === undefined) {
-          chartData= buildChartData(data, casesType);
-        }
-        else{
-          chartData= buildChartData(data.timeline, casesType);
+
+        if (data.timeline === undefined) {
+          chartData = buildChartData(data, casesType);
+        } else {
+          chartData = buildChartData(data.timeline, casesType);
         }
         setData(chartData);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
 
   return (
-    <Card className="LineGraph">
-      <CardContent>
-        <h3>
-          <span>{countryName}</span> {casesType} by day
-        </h3>
-        {data?.length > 0 && (
-          <Line
-            data={{
-              datasets: [
-                {
-                  borderColor: "#CC1034",
-                  data: data,
-                },
-              ],
-            }}
-            options={options}
-          />
-        )}
-      </CardContent>
-    </Card>
+    <div className="LineGraph">
+      <h3>
+        <span>{countryName}</span> {casesType} by day
+      </h3>
+      {data?.length > 0 && (
+        <Line
+          data={{
+            datasets: [
+              {
+                borderColor: "#CC1034",
+                data: data,
+              },
+            ],
+          }}
+          options={options}
+        />
+      )}
+    </div>
   );
 }
 
