@@ -1,19 +1,20 @@
 .Header {
   display: flex;
-justify-content: space-between;
+  justify-content: space-between;
 
-@media (max-width:768px) {
-  flex-direction: column;
-}
+  @media (max-width:768px) {
+    flex-direction: column;
+  }
 
   &__title {
-    display: flex;    
+    display: flex;
     align-items: center;
 
     @media (max-width:768px) {
       margin-bottom: 16px;
     }
   }
+
 
   &__select {
     display: flex;
@@ -25,14 +26,16 @@ justify-content: space-between;
     }
   }
 
-
+  .logo{
+    height: 48px;
+    width: auto;
+  }
 
   .MuiFormControl-root {
     background: #35393e;
     border-radius: 6px;
     box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
     cursor: pointer !important;
-
   }
 
   .MuiOutlinedInput-notchedOutline {
@@ -48,4 +51,8 @@ justify-content: space-between;
 
 .MuiButtonBase-root {
   color: #ffffff !important;
+}
+
+.update{
+  margin-bottom: 20px;
 }
