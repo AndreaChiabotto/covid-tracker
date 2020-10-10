@@ -6,8 +6,12 @@ import "./Header.scss";
 const Header = (props) => {
   return (
     <Grid container spacing={3} className="Header">
+      <Grid item xs={12}>
+        <h1>Covid-19 Daily Tracker</h1>
+      </Grid>
 
-      <Grid item xs={6} md={3}>
+      <Grid item xs={12}>
+        <h3>Select a country: </h3>
         <FormControl>
           <Select
             variant="outlined"
@@ -23,7 +27,6 @@ const Header = (props) => {
           </Select>
         </FormControl>
       </Grid>
-      
     </Grid>
   );
 };
