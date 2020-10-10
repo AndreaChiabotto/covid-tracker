@@ -1,5 +1,27 @@
 .CountryInfoBox {
+<<<<<<< HEAD
     cursor: pointer;
+=======
+    &__header {
+        img {
+            float: left;
+            margin-right: 16px;
+            width: 200px;
+        }
+
+        h1 {
+            margin: 8px 0 20px;
+
+            span {
+                font-size: 20px;
+            }
+        }
+    }
+
+    .MuiGrid-item {
+        //  padding: 16px 28px 24px !important;
+    }
+>>>>>>> 21ee9f2a8eca6813afae73658a6d9fe6cd2bc66f
 
     h3 {
         color: #7a7d80;

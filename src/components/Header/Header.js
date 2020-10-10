@@ -1,16 +1,13 @@
-import React from 'react';
-import {
-    FormControl,
-    Select,
-    MenuItem,
-  } from "@material-ui/core";
+import React from "react";
+import { Grid, FormControl, Select, MenuItem } from "@material-ui/core";
 
-  import './Header.scss';
+import "./Header.scss";
 
 const Header = (props) => {
-    return (
-       <div className="Header">
-        <h1>Covid-19 World Tracker</h1>
+  return (
+    <Grid container spacing={3} className="Header">
+
+      <Grid item xs={6} md={3}>
         <FormControl>
           <Select
             variant="outlined"
@@ -25,8 +22,10 @@ const Header = (props) => {
             ))}
           </Select>
         </FormControl>
-        </div>
-    );
+      </Grid>
+      
+    </Grid>
+  );
 };
 
 export default Header;
