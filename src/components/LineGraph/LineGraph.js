@@ -54,6 +54,8 @@ const options = {
 const buildChartData = (data, casesType = "cases") => {
   let chartData = [];
   let lastDataPoint;
+  
+  
 
   for (let date in data[casesType]) {
     if (lastDataPoint) {
@@ -87,7 +89,7 @@ function LineGraph({ countryName, countryCode, casesType }) {
     }
 
     fetchData();
-  }, [casesType, countryCode]);
+  }, [casesType, countryCode, countryName]);
 
   const fetchData = async () => {
     await fetch(url)
