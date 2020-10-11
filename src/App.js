@@ -6,7 +6,7 @@ import { sortData, prettyPrintStat } from "./utils/utils";
 import Header from "./components/Header/Header";
 import CountryInfoBox from "./components/CountryInfoBox/CountryInfoBox";
 import Map from "./components/Map/Map";
-// import LineGraph from "./components/LineGraph/LineGraph";
+ import LineGraph from "./components/LineGraph/LineGraph";
 import Infobox from "./components/InfoBox/InfoBox";
 import TopCountries from "./components/TopCountries/TopCountries";
 
@@ -25,13 +25,14 @@ function App() {
 
   const [casesType, setCasesType] = useState("cases");
 
+
   useEffect(() => {
     loadCountriesData(country);
   }, [country]);
 
   useEffect(() => {
     const getCountriesByData = async () => {
-      console.log("getCountriesByData...");
+    //  console.log("getCountriesByData...");
 
       await fetch("https://disease.sh/v3/covid-19/countries")
         .then((response) => response.json())
@@ -43,6 +44,8 @@ function App() {
 
           setMapCountries(data);
           setCountries(fetchedCountries);
+          
+          console.log("fetchedCountries is successful...");
         })
         .catch(function (error) {
           console.log(error);
@@ -58,7 +61,7 @@ function App() {
   };
 
   const loadCountriesData = async (selectedCountry) => {
-    console.log("loadCountriesData...");
+   // console.log("loadCountriesData...");
 
     const url =
       selectedCountry === "worldwide"
@@ -68,7 +71,7 @@ function App() {
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+     //   console.log(data);
 
         if (data.countryInfo) {
           setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
@@ -122,9 +125,9 @@ function App() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={12} md={4}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={12}>
+              <Grid item xs={12} sm={4} md={12}>
                 <Infobox
                   active={casesType === "cases"}
                   onClick={() => setCasesTypeOnClick("cases")}
@@ -134,7 +137,7 @@ function App() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={12}>
+              <Grid item xs={12} sm={4} md={12}>
                 <Infobox
                   active={casesType === "recovered"}
                   onClick={() => setCasesTypeOnClick("recovered")}
@@ -144,7 +147,7 @@ function App() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={12}>
+              <Grid item xs={12} sm={4} md={12} >
                 <Infobox
                   active={casesType === "deaths"}
                   onClick={() => setCasesTypeOnClick("deaths")}
@@ -156,41 +159,41 @@ function App() {
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={8}>
-            {/* 
+          <Grid item xs={12} sm={12} md={8}>
+            
               <LineGraph
                 countryName={countryInfo.country}
                 countryCode={country}
                 casesType={casesType}
               />
-            */}
+            
           </Grid>
 
           <Grid item xs={12}>
             <TopCountries
               title="Country with most today cases:"
-              sortedData={sortData(mapCountries)}
-              sortingType="cases"
+              sortedData={sortData(mapCountries,'todayCases',9)}
+              sortingType="todayCases"
               loadCountryOnClick={selectCountryOnClickHandler}
             />
 
             <TopCountries
               title="Country with most deaths:"
-              sortedData={sortData(mapCountries, "todayDeaths")}
+              sortedData={sortData(mapCountries, "todayDeaths",9)}
               sortingType="todayDeaths"
               loadCountryOnClick={selectCountryOnClickHandler}
             />
 
             <TopCountries
               title="Country with most cases per million:"
-              sortedData={sortData(mapCountries, "casesPerOneMillion")}
-              sortingType="todayDeaths"
+              sortedData={sortData(mapCountries, "casesPerOneMillion",9)}
+              sortingType="casesPerOneMillion"
               loadCountryOnClick={selectCountryOnClickHandler}
             />
 
             <TopCountries
               title="Country with most cases per million:"
-              sortedData={sortData(mapCountries, "activePerOneMillion")}
+              sortedData={sortData(mapCountries, "activePerOneMillion",9)}
               sortingType="activePerOneMillion"
               loadCountryOnClick={selectCountryOnClickHandler}
             />
