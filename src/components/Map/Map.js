@@ -1,5 +1,5 @@
 import React from "react";
-import { Map as LeafletMap, TileLayer, GeoJSON } from "react-leaflet";
+import { Map as LeafletMap, GeoJSON } from "react-leaflet";
 import data1 from "./data.js";
 
 import { Card, CardContent } from "@material-ui/core";
@@ -11,7 +11,6 @@ function Map({ countries, casesType, center, zoom }) {
 
   if (countries.length > 0) {
     sortData = (country) => {
-      
       let number = countries.filter(function (e) {
         return e.countryInfo.iso2 === country;
       });
@@ -24,7 +23,6 @@ function Map({ countries, casesType, center, zoom }) {
   }
 
   const getColor = (d) => {
-    
     return d > 120000
       ? "#123456"
       : d > 128000
@@ -57,30 +55,22 @@ function Map({ countries, casesType, center, zoom }) {
     <Card>
       <CardContent className="Map">
         <LeafletMap center={center} zoom={zoom}>
-       {/*
-          <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
- */}
-
           <GeoJSON
             data={data1}
             style={style}
-            onEachFeature={(feature, layer) => {
-
-              console.log( sortData(feature.properties.iso_a2)  );
+            /* 
+           onEachFeature={(feature, layer) => {
 
               layer.bindPopup(
                 "<h2>" + feature.properties.name + "</h2>" 
                    +
                   "<h4>" +
-                  sortData(feature.properties.iso_a2) +
+                  sortData(feature.properties.iso_a2) + ' ' + {casesType} +
                   " today </p>"
               );
             }}
+            */
           />
-
         </LeafletMap>
       </CardContent>
     </Card>

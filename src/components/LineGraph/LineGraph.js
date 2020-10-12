@@ -54,8 +54,6 @@ const options = {
 const buildChartData = (data, casesType = "cases") => {
   let chartData = [];
   let lastDataPoint;
-  
-  
 
   for (let date in data[casesType]) {
     if (lastDataPoint) {
@@ -78,6 +76,9 @@ function LineGraph({ countryName, countryCode, casesType }) {
     "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
   );
 
+
+   console.log(countryName)
+
   useEffect(() => {
     //console.log('useeffect casestype')
     if (countryCode === "worldwide") {
@@ -88,28 +89,30 @@ function LineGraph({ countryName, countryCode, casesType }) {
       );
     }
 
+    const fetchData = async () => {
+      await fetch(url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let chartData;
+  
+          if (data.timeline === undefined) {
+            chartData = buildChartData(data, casesType);
+          } else {
+            chartData = buildChartData(data.timeline, casesType);
+          }
+          setData(chartData);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    };
+
     fetchData();
   }, [casesType, countryCode, countryName]);
 
-  const fetchData = async () => {
-    await fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        let chartData;
-
-        if (data.timeline === undefined) {
-          chartData = buildChartData(data, casesType);
-        } else {
-          chartData = buildChartData(data.timeline, casesType);
-        }
-        setData(chartData);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+  
 
   return (
     <div className="LineGraph">

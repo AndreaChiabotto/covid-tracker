@@ -74,4 +74,4 @@ function CountryInfoBox({data}) {
   );
 }
 
-export default CountryInfoBox;
+export default React.memo(CountryInfoBox);

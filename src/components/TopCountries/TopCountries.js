@@ -1,6 +1,7 @@
 import React from "react";
 import "./TopCountries.scss";
 import { Grid, Card, CardContent } from "@material-ui/core";
+import { prettyPrintStat } from "../../utils/utils";
 
 function TopCountries({ title, sortedData, sortingType, loadCountryOnClick }) {
   // console.log(sortingType);
@@ -19,7 +20,7 @@ function TopCountries({ title, sortedData, sortingType, loadCountryOnClick }) {
             >
               <CardContent>
                 <h2>{country.country}</h2>
-                <p>{country[sortingType]}</p>
+                <p>{prettyPrintStat(country[sortingType])}</p>
               </CardContent>
             </Card>
           );
