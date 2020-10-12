@@ -1,16 +1,17 @@
 .Map {
-    height: 500px;
-    background-color: white;
-    border-radius: 6px !important;
-    overflow: hidden;
+  height: 500px;
+  background-color: white;
+  border-radius: 6px !important;
+  overflow: hidden;
+  padding: 0 !important;
 
-    .leaflet-container {
-        height: 100%;
-    }
+  .leaflet-container {
+    height: 100%;
+  }
 }
 
-.country-popup{
-        width: 150px;
+.country-popup {
+  width: 150px;
 
   &__flag {
     height: 80px;
@@ -18,9 +19,9 @@
     background: olive;
 
     img {
-        width: 100%;
-        height: auto;
-      }
+      width: 100%;
+      height: auto;
+    }
   }
 
   &__name {
@@ -28,7 +29,7 @@
     font-weight: bold;
     color: #555;
   }
-  
+
   &__confirmed,
   &__recovered,
   &__deaths {

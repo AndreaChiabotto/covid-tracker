@@ -1,10 +1,10 @@
-import React from "react";
+import React  from "react";
 import './InfoBox.scss';
 import { Card, CardContent } from "@material-ui/core";
 
-function InfoBox({ active,title, cases, total, ...props }) {
+function InfoBox({active,title, cases, total, ...props }) {
   return (
-    <Card onClick={props.onClick} className={`InfoBox ${active && 'infoBox--selected'}`}>
+    <Card onClick={props.onClick} className={`InfoBox ${active && 'InfoBox--selected'}`}>
       <CardContent>
         <h3>{title}</h3>
         <h2>+{cases}</h2>

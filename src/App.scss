@@ -14,30 +14,19 @@ h2 {
   color: #fff;
 }
 
-p {
-  color: #7a7d80;
+.leaflet-popup-content{
+  h2{
+   color: #35393e;
+   margin-bottom: 6px;
+  }
+  h4{
+    font-size: 15px;
+  }
 }
 
-.Header {
-  display: flex;
-  justify-content: space-between;
 
-  .MuiFormControl-root {
-    background: #35393e !important;
-    border-radius: 6px !important;
-    box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
-    cursor: pointer !important;
-  }
-
-  .MuiOutlinedInput-notchedOutline {
-    border-color: rgba(0, 0, 0, 0);
-  }
-
-  .MuiSelect-root,
-  .MuiSelect-icon {
-    color: #fff;
-    font-weight: 700;
-  }
+p {
+  color: #7a7d80;
 }
 
 .MuiContainer-root{
@@ -52,6 +41,7 @@ p {
   }
 
   &-elevation1 {
+    transition: all .2s;
     box-shadow: 8px 8px 16px #2d3035, -8px -8px 16px #3d4247 !important;
   }
 }
